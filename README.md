@@ -1,3 +1,4 @@
+
 # ⚡ FastReactApp
 
 A modern fullstack application that seamlessly connects a **React** frontend with a **FastAPI** backend, containerized using **Docker** and orchestrated with **Docker Compose**.
@@ -21,8 +22,12 @@ A modern fullstack application that seamlessly connects a **React** frontend wit
 - 🔄 **Asynchronous Communication**  
   Powered by the `fetch` API to handle backend communication without page reloads.
 
+- 🧠 **Redis Caching for Performance**  
+  GET requests for all items are now cached in **Redis**, improving speed and reducing database load.  
+  Cache is invalidated on POST, PUT, and DELETE operations.
+
 - 🐳 **Fully Containerized Setup**  
-  Both services (frontend + backend) run inside isolated Docker containers for consistency and ease of deployment.
+  All services (frontend + backend + Redis) run inside isolated Docker containers for consistency and ease of deployment.
 
 - 🔐 **Environment Variables Support**  
   Secure secrets management using `.env` files and `python-dotenv`.
@@ -37,7 +42,8 @@ A modern fullstack application that seamlessly connects a **React** frontend wit
 1. The user visits the web app.
 2. The React frontend sends HTTP requests to the FastAPI backend.
 3. The backend responds with messages or performs CRUD actions.
-4. The frontend dynamically displays the data.
+4. Redis caches the item list on reads and invalidates it on writes.
+5. The frontend dynamically displays the data.
 
 ---
 
@@ -47,6 +53,7 @@ A modern fullstack application that seamlessly connects a **React** frontend wit
 - ⚛️ Frontend: [React](https://reactjs.org/)
 - 🐳 DevOps: Docker & Docker Compose
 - 🗃️ Database: SQLite
+- ⚡ Cache: Redis
 - 🔐 Secrets: Python Dotenv
 
 ---
@@ -55,11 +62,23 @@ A modern fullstack application that seamlessly connects a **React** frontend wit
 
 | Method | Endpoint        | Description             |
 |--------|-----------------|-------------------------|
-| GET    | `/items/`       | List all items          |
+| GET    | `/items/`       | List all items (cached) |
 | POST   | `/items/`       | Add new item            |
 | PUT    | `/items/{id}`   | Update item by ID       |
 | DELETE | `/items/{id}`   | Delete item by ID       |
 
 ---
 
-Made with ❤️ using React, FastAPI & Docker.
+## 🚀 Running Locally
+
+```bash
+docker compose up --build
+````
+
+Visit: [http://localhost:3000](http://localhost:3000)
+
+---
+
+Made with ❤️ using React, FastAPI, Redis & Docker.
+
+
